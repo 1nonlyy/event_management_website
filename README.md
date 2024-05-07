@@ -5,7 +5,9 @@
 MONGODB = тут  должно быть string с путем до базы данных в MongoDB. (В моем случае это mongodb://localhost:27017/khel)
 ADMINUSER = admin@gmail.com
 ADMINPASSWORD = admin
-```bash
+```
+
+
 Чтобы начать проект нужно сначала сделать эти шаги
 ```bash
   git clone https://github.com/1nonlyy/nfact_task.git
@@ -16,3 +18,6 @@ ADMINPASSWORD = admin
 ```bash
   node index
 ```
+#Основные Изображение в проекте 
+Главная страница <img width="1438" alt="Снимок экрана 2024-05-08 в 00 38 23" src="https://github.com/1nonlyy/nfact_task/assets/135871519/341eab9d-09b5-4b34-9d73-80b327b80916">
+
