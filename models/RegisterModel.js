@@ -13,6 +13,12 @@ const RegisterSchema = new Schema({
     password:{
         type: String,
         required: true
+    },
+    registeredEvents: {
+        type: [{
+            event: {type: Schema.Types.ObjectId, ref: 'events'}
+        }],
+        default: []
     }
 });
 

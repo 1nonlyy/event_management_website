@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Khel Sethu</title>
+    <title>Dream City</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
@@ -554,23 +554,17 @@
         </a>
 
         <div class="nav container">
-          <a class="logo" href="/"><img src="/images/logo.png" height="60px" width="60px"> Khel Sethu</a>
+          <a class="logo" href="/"><img src="/images/logo.png" height="60px" width="60px"> Dream City</a>
           <ul class="navbar">
-            <li><a href="/" class="nav-link">Home</a></li>
+            <li><a href="/" class="nav-link">Главная</a></li>
 
-            <li><a href="#events" class="nav-link">Events</a></li>
-            <li><a href="/about" class="nav-link">Our Team</a></li>
-            <li>
-              <a href="/contactUs" target="_blank" class="nav-link"
-                >Contact-Us</a
-              >
-            </li>
+            <li><a href="#events" class="nav-link">События</a></li>
             <% var Currentuser=JSON.parse(localStorage.getItem("users")) %> <%
             if(Currentuser==null) { %>
-            <li><a href="/loginUser" class="nav-link">Login</a></li>
-            <li><a href="/registerUser" class="nav-link">Sign-Up</a></li>
+            <li><a href="/loginUser" class="nav-link">Войти</a></li>
+            <li><a href="/registerUser" class="nav-link">Регистрация</a></li>
             <% } %> <% if(Currentuser!=null) { %>
-            <li><a href="/logout" class="nav-link">Logout</a></li>
+            <li><a href="/logout" class="nav-link">Выйти</a></li>
             <li>
               <a href="/" class="nav-link"
                 ><%= Currentuser.username %></a
@@ -591,16 +585,15 @@
       <section class="home container" id="home">
         <div class="home-content">
           <div class="home-text">
-            <h2>Come. Challenge. Win.</h2>
+            <h2>Register. Come. Enjoy.</h2>
             <% if(Currentuser==null) { %>
             <p class="pmain">
-              <a href="/loginUser"><u>Login</u></a> to continue. Don't have an
-              account? <a href="/registerUser"><u>Signup</u>.</a>
+              <a href="/loginUser"><u>Войти</u></a> чтобы продолжить. У вас нет учетной записи? <a href="/registerUser"><u>Регистрация</u>.</a>
             </p>
             <% } %>
 
             <% if(Currentuser!=null) { %>
-              <p class="pcls">Be Better Than Yourself</p>
+              <p class="pcls">Система управления мероприятиями</p>
               <%}%>
           </div>
         </div>
@@ -610,81 +603,75 @@
     <!-- about section starts -->
     <section id="features">
       <p>
-        Khel Sethu bridges the gap between the players and the actual ground.
+        Веб-сайт предоставляет удобный интерфейс для управления событиями.
       </p>
       <div class="fea-base">
         <div class="fea-box">
           <h3><i class="fa fa fa-calendar-days"></i></h3>
-          <p>It provides all the ongoing and upcomming sports events.</p>
+          <p>Здесь представлены все текущие и предстоящие события в городе.</p>
         </div>
 
         <div class="fea-box">
           <h3><i class="fa-solid fa-pen-to-square"></i></h3>
-          <p>It is dynamic and provides time-to-time update about the events.</p>
+          <p>Веб-сайт динамичен и представляет обновленную информацию о событиях.</p>
         </div>
 
         <div class="fea-box">
           <h3><i class="fa fa-address-card"></i></h3>
-          <p>Players can find it useful and can directly register here.</p>
+          <p>Пользователи могут найти это полезным и могут зарегистрироваться прямо здесь.</p>
         </div>
       </div>
     </section>
     <!-- about section ends -->
-    <!-- Events starts -->
-    <section id="events">
-      <p>
-        Come and grab the opportunity to prove yourselves. Check out all the
-        ongoing and upcomming events here.
-      </p>
-      <div class="events-box">
-        <% for(var i=0;i<3;i++) {%>
+<!-- Events starts -->
+<section id="events">
+  <p>
+    Проверьте все
+     текущие и предстоящие события здесь.
+  </p>
+  <div class="events-box">
+    <% if (event && event.length > 0) { %>
+      <% for (var i = 0; i < event.length; i++) { %>
         <div class="events">
-          <img src="<%=event[i].photo %>" />
+          <% if (event[i].photo) { %>
+            <img src="<%= event[i].photo %>" />
+          <% } %>
           <div class="details">
-            <span>Date: <%=event[i].dateStart.toLocaleDateString()%></span>
-            <h6><%=event[i].name%></h6>
-            <% if(Currentuser!=null) { %>
-            <center>
-              <button onclick="location.href='/fetchdetails/<%=event[i]._id%>'" class="regbtn">
-                View Details <i class="fa fa-arrow-right"></i>
-              </button>
-            </center>
-            <% } %> <% if(Currentuser==null) { %>
-            <center>
-              <button onclick="location.href='/loginUser'" class="regbtn">
-                View Details <i class="fa fa-arrow-right"></i>
-              </button>
-            </center>
+            <span>Date: <%= event[i].dateStart.toLocaleDateString() %></span>
+            <h6><%= event[i].name %></h6>
+            <% if (Currentuser != null) { %>
+              <center>
+                <button onclick="location.href='/fetchdetails/<%= event[i]._id %>'" class="regbtn">
+                  View Details <i class="fa fa-arrow-right"></i>
+                </button>
+              </center>
+            <% } else { %>
+              <center>
+                <button onclick="location.href='/loginUser'" class="regbtn">
+                  View Details <i class="fa fa-arrow-right"></i>
+                </button>
+              </center>
             <% } %>
           </div>
-          <div class="cost">Rs. <%=event[i].registerationFee %></div>
+          <div class="cost">No. <%= event[i].totalseats %></div>
         </div>
-  <%} %>
+      <% } %>
+    <% } else { %>
+      <p>Нет доступных событий.</p>
+    <% } %>
+  </div>
+</section>
+<!-- Events ends -->
 
-        
-      </div>
-      <button class="expbtn">
-        <a href="/checkevents"
-          >Explore More <i class="fa-solid fa-forward"></i
-        ></a>
-      </button>
-    </section>
-    <br /><br /><br />
-    <br><br>
-    <!-- Events ends -->
     <!--footer started-->
     <div class="footer-basic">
       <footer>
-          <div class="social"><a href="https://www.instagram.com/prem._.pkk/"><i class="fa-brands fa-instagram"></i></i></a><a href="https://www.snapchat.com/prempk.7172"><i class="fa-brands fa-square-snapchat"></i></i></a><a href="https://twitter.com/Prempk2929"><i class="fa-brands fa-twitter"></i></i></a><a href="https://www.facebook.com/profile.php?id=100090794153191"><i class="fa-brands fa-facebook"></i></i></a></div>
         <hr style="height:2px;border-width:0;color:gray;background-color:white">
           <ul class="list-inline">
-              <li class="list-inline-item"><a href="#">Home</a></li>
-              <li class="list-inline-item"><a href="/checkevents">Events</a></li>
-              <li class="list-inline-item"><a href="/about">Our Team</a></li>
-              <li class="list-inline-item"><a href="/contactUs" target="_blank">Contact-Us</a></li>
+              <li class="list-inline-item"><a href="#">Главная</a></li>
+              <li class="list-inline-item"><a href="/checkevents">События</a></li>
               
           </ul>
-          <p class="copyright"> © Khel Sethu </p>
       </footer>
   </div>
   <!--footer ended-->

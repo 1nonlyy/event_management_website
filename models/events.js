@@ -42,13 +42,19 @@ const eventSchema = new Schema({
         type: String,
         required: true
     },
-    cashPrice:{
-        type: Number,
-        required: true
-    },
     contact:{
         type: String,
         required: true
+    },
+    totalseats: {
+        type: String,
+        required: true
+    },
+    registeredUsers: {
+        type: [{
+            user: {type: Schema.Types.ObjectId, ref: 'RegisterModel'}
+        }],
+        default: []
     }
 
 });

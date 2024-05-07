@@ -13,19 +13,7 @@ const eventRegistration = new mongoose.Schema({
         type:Number,
         required:true 
     },
-    year:{
-        type:String,
-        required:true
-    },
     event:{
-        type:String,
-        required:true
-    },
-    amount:{
-        type:Number,
-        required:true
-    },
-    transactionid:{
         type:String,
         required:true
     }

@@ -66,8 +66,7 @@ app.get("/logout", (req, res) => {
   res.redirect('/')
 })
 
-
-
+// Assuming you have a User model and mongoose connection
 
 //admindashboard
 app.get("/admindashboard", (req, res) => {
@@ -111,7 +110,7 @@ app.post("/create", async (req, res) => {
     venue: req.body.venue,
     category: req.body.category,
     registerationFee: req.body.registerationFee,
-    cashPrice: req.body.cashPrice,
+    totalseats: req.body.totalseats,
     contact: req.body.contact
   });
 
@@ -177,7 +176,7 @@ app.post("/events/:eventId", async (req, res) => {
     venue,
     category,
     registerationFee,
-    cashPrice,
+    seats,
     contact
   } = req.body;
   try {
@@ -194,7 +193,7 @@ app.post("/events/:eventId", async (req, res) => {
         venue,
         category,
         registerationFee,
-        cashPrice,
+        seats,
         contact
       }
     );
@@ -222,23 +221,33 @@ app.post("/deleteEvents/:eventId", async (req, res) => {
   }
 });
 
-// User Registering for an event + Payments
+// User Registering for an event
 
 app.post("/testing", async(req,res)=>{
     const register = new eventRegistration({
       name:req.body.name,
       email:req.body.email,
       phnumber:req.body.mobile,
-      year:req.body.yos,
-      event:req.body.events,
-      amount:req.body.amount,
-      transactionid:req.body.transactionid
+      event:req.body.events
     })
 
     try{
-      await register.save();
-      res.redirect("/checkevents")
-
+      const ev = await eventModule.findById(req.body.eventId);
+      if(ev.totalseats>0) {
+        ev.totalseats--;
+        const us = await RegisterModule.findOne({email: req.body.email});
+        if(us) {
+          ev.registeredUsers.push({user: us});
+          us.registeredEvents.push({event: ev});
+          await ev.save();
+          await us.save();
+          await register.save();
+          res.redirect("/checkevents");
+        }
+      }
+      else {
+        res.status(400).send("No available seats for this event.");
+      }
     }
     catch(err){
       console.log(err);
@@ -280,6 +289,7 @@ app.post("/login", function (req, res) {
       }
       else {
         localStorage.setItem("users", JSON.stringify(data))
+        localStorage.setItem("registeredEvents", JSON.stringify(data.registeredEvents));
         res.redirect("/");
       }
     })
